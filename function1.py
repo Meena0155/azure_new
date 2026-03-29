@@ -12,13 +12,13 @@ def get_random_records(req: func.HttpRequest) -> func.HttpResponse:
     # 1. Auth via Managed Identity
     token_credential = DefaultAzureCredential()
     blob_service_client = BlobServiceClient(
-        account_url="https://meenafuncappsource.blob.core.windows.net", 
+        account_url="https://functionappsrc.blob.core.windows.net", 
         credential=token_credential
     )
 
     try:
         # 2. Read from Blob
-        blob_client = blob_service_client.get_blob_client(container="input", blob="Sample Data - Meena.xlsx")
+        blob_client = blob_service_client.get_blob_client(container="input", blob="meenasample.xlsx")
         data = blob_client.download_blob().readall()
         df = pd.read_excel(io.BytesIO(data))
 
@@ -28,7 +28,7 @@ def get_random_records(req: func.HttpRequest) -> func.HttpResponse:
         ).reset_index(drop=True)
 
         # 4. Filter columns and convert to JSON
-        result = sampled_df[['id', 'text']].to_dict(orient='records')
+        result = sampled_df[['ID', 'text']].to_dict(orient='records')
         
         # 5. Write back to Blob
         output_client = blob_service_client.get_blob_client(container="output", blob="random_records.json")
@@ -37,5 +37,4 @@ def get_random_records(req: func.HttpRequest) -> func.HttpResponse:
         return func.HttpResponse("JSON generated successfully.", status_code=200)
     except Exception as e:
         return func.HttpResponse(f"Error: {str(e)}", status_code=500)
-    
     

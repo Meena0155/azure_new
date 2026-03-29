@@ -10,12 +10,12 @@ bp2 = func.Blueprint()
 def filter_by_date(req: func.HttpRequest) -> func.HttpResponse:
     token_credential = DefaultAzureCredential()
     blob_service_client = BlobServiceClient(
-        account_url="https://meenafuncappsource.blob.core.windows.net", 
+        account_url="https://functionappsrc.blob.core.windows.net", 
         credential=token_credential
     )
 
     try:
-        blob_client = blob_service_client.get_blob_client(container="input", blob="Sample Data - Meena.xlsx")
+        blob_client = blob_service_client.get_blob_client(container="input", blob="meenasample.xlsx")
         data = blob_client.download_blob().readall()
         df = pd.read_excel(io.BytesIO(data))
 
