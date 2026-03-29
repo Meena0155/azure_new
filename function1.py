@@ -37,3 +37,4 @@ def get_random_records(req: func.HttpRequest) -> func.HttpResponse:
         return func.HttpResponse("JSON generated successfully.", status_code=200)
     except Exception as e:
         return func.HttpResponse(f"Error: {str(e)}", status_code=500)
+    
