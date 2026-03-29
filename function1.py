@@ -38,3 +38,4 @@ def get_random_records(req: func.HttpRequest) -> func.HttpResponse:
     except Exception as e:
         return func.HttpResponse(f"Error: {str(e)}", status_code=500)
     
+    
